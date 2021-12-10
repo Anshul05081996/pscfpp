@@ -5,7 +5,7 @@ System{
                B   1.0 
      nPolymer  1
      Polymer{
-        type    branched
+        type    linear
         nBlock  2
         blocks  0  0.5  0  1 
                 1  0.5  1  2 

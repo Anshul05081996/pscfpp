@@ -1,0 +1,2 @@
+terminate called after throwing an instance of 'Util::Exception'
+/var/spool/slurmd/job8903623/slurm_script: line 16: 856676 Aborted                 pscf_pg1d -e -p -c command -1 2 -2 16 > log

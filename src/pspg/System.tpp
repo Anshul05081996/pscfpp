@@ -250,6 +250,7 @@ namespace Pspg
    template <int D>
    void System<D>::readParam(std::istream& in)
    {
+      std::cout<<"In second readParam"<<std::endl;
       readBegin(in, className().c_str());
       readParameters(in);  
       readEnd(in);  
@@ -268,6 +269,7 @@ namespace Pspg
    template <int D>
    void System<D>::allocate()
    {
+      std::cout<<"Allocating";
       // Preconditions
       UTIL_CHECK(hasMixture_);
       UTIL_CHECK(hasMesh_);
@@ -647,6 +649,7 @@ namespace Pspg
    {   
       fieldIo().readFieldsBasis(filename, wFields());
       fieldIo().convertBasisToRGrid(wFields(), wFieldsRGrid());
+      basis().update();
       hasWFields_ = true;
       hasCFields_ = false;
    } 
@@ -666,6 +669,7 @@ namespace Pspg
       // Call iterator
       std::cout<<"Starting iterator"<<std::endl;
       int error = iterator().solve();
+      std::cout<<"Out of iterator"<<std::endl;
       hasCFields_ = true;
 
       if (error) {

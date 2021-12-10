@@ -325,12 +325,13 @@ public:
       system.setGpuResources(2, 16);
 
       std::ifstream in;
-      openInputFile("in/diblock/lam/param.rigid", in);
+      openInputFile("in/diblock/lam/System1D", in);
       system.readParam(in);
       in.close();
 
       // Read w fields
       system.readWBasis("in/diblock/lam/omega.ref");
+      std::cout<<"Yahin hu main"<<std::endl;
 
       DArray< RDField<1> > wFieldsGpu_check;
       wFieldsGpu_check = system.wFields();
@@ -354,7 +355,6 @@ public:
 
       // Read w-fields, iterate and output solution
       system.readWBasis("in/diblock/lam/omega.in");
-      std::cout<<"Yahin hu main"<<wFields_check[0][0]<<std::endl;
       system.iterate();
       system.writeWBasis("out/testIterate1D_lam_rigid_w.bf");
       system.writeCBasis("out/testIterate1D_lam_rigid_c.bf");

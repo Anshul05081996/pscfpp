@@ -1,0 +1,2 @@
+terminate called after throwing an instance of 'Util::Exception'
+/var/spool/slurmd/job8904105/slurm_script: line 16: 860091 Aborted                 ./Test > log

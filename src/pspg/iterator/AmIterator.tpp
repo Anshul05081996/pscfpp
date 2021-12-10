@@ -62,6 +62,7 @@ namespace Pspg {
    template <int D>
    void AmIterator<D>::allocate()
    {
+      std::cout<<"Allocating iterator"<<std::endl;
       devHists_.allocate(maxHist_ + 1);
       omHists_.allocate(maxHist_ + 1);
 
@@ -119,6 +120,7 @@ namespace Pspg {
          stressTimer.stop(now);
       }
 
+
       // Anderson-Mixing iterative loop
       int itr;
       for (itr = 1; itr <= maxItr_; ++itr) {
@@ -135,6 +137,8 @@ namespace Pspg {
          }
 
          computeDeviation();
+
+//Not printing std::cout<<"Iterator is here"<<std::endl;
 
          if (isConverged()) {
             updateTimer.stop();
@@ -190,6 +194,7 @@ namespace Pspg {
             // Resize history based matrix appropriately
             // consider making these working space local
 
+      // Not printing std::cout<<"Iterator is here"<<std::endl;
             if (itr <= maxHist_ + 1) {
                if (nHist_ > 0) {
                   invertMatrix_.allocate(nHist_, nHist_);
