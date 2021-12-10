@@ -212,6 +212,7 @@ namespace Pspg
       homogeneous_.setNMolecule(np+ns);
       homogeneous_.setNMonomer(nm);
       initHomogeneous();
+      std::cout<<"In third Param"<<std::endl;
 
       // Read interaction (i.e., chi parameters)
       interaction().setNMonomer(mixture().nMonomer());
@@ -238,6 +239,7 @@ namespace Pspg
 
       // Allocate memory for w and c fields
       allocate();
+
 
       // Initialize iterator
       readParamComposite(in, iterator());
@@ -699,6 +701,7 @@ namespace Pspg
    void System<D>::writeWBasis(const std::string & filename)
    {
       UTIL_CHECK(hasWFields_);
+      fieldIo().convertRGridToBasis(wFieldsRGrid(), wFields());
       fieldIo().writeFieldsBasis(filename, wFields());
    }
 
@@ -709,6 +712,7 @@ namespace Pspg
    void System<D>::writeCBasis(const std::string & filename)
    {
       UTIL_CHECK(hasCFields_);
+      fieldIo().convertRGridToBasis(cFieldsRGrid(), cFields());
       fieldIo().writeFieldsBasis(filename, cFields());
    }
 

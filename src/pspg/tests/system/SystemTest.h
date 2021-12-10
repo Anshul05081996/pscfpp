@@ -322,10 +322,10 @@ public:
       system.fileMaster().setOutputPrefix(filePrefix());
 
       openLogFile("out/testIterate1D_lam_rigid.log");
-      system.setGpuResources(2, 16);
+      system.setGpuResources(4, 16);
 
       std::ifstream in;
-      openInputFile("in/diblock/lam/System1D", in);
+      openInputFile("in/diblock/lam/param.rigid", in);
       system.readParam(in);
       in.close();
 

@@ -104,6 +104,8 @@ namespace Pspg {
       now = Timer::now();
       solverTimer.stop(now);
 
+std::cout<<"Iterator is here"<<std::endl;
+
       // Compute stress for initial state
       if (isFlexible_) {
          stressTimer.start(now);
@@ -120,6 +122,7 @@ namespace Pspg {
          stressTimer.stop(now);
       }
 
+std::cout<<"Iterator is here"<<std::endl;
 
       // Anderson-Mixing iterative loop
       int itr;
@@ -136,9 +139,10 @@ namespace Pspg {
             nHist_ = maxHist_;
          }
 
-         computeDeviation();
+std::cout<<"Before computing deviation"<<std::endl;
 
-//Not printing std::cout<<"Iterator is here"<<std::endl;
+         computeDeviation();
+std::cout<<"After computing deviation"<<std::endl;
 
          if (isConverged()) {
             updateTimer.stop();
@@ -264,6 +268,8 @@ namespace Pspg {
    void AmIterator<D>::computeDeviation()
    {
 
+      std::cout<<"NUMBER_OF_BLOCKS = "<<NUMBER_OF_BLOCKS<<std::endl;
+
       //need to average
       float average = 0;
       for (int i = 0; i < systemPtr_->mixture().nMonomer(); ++i) {
@@ -278,19 +284,22 @@ namespace Pspg {
 
       if (isFlexible_) {
          CpHists_.append(systemPtr_->unitCell().parameters());
-      }
+      } 
 
       for (int i = 0; i < systemPtr_->mixture().nMonomer(); ++i) {
          assignUniformReal << <NUMBER_OF_BLOCKS, THREADS_PER_BLOCK >> >(tempDev[i].cDField(), 0, systemPtr_->mesh().size());
       }
       
+      std::cout<<"THREADS_PER_BLOCK = "<<THREADS_PER_BLOCK<<std::endl;
       for (int i = 0; i < systemPtr_->mixture().nMonomer(); ++i) {
          for (int j = 0; j < systemPtr_->mixture().nMonomer(); ++j) {
+            std::cout<<"interaction().chi("<<i<<","<< j<<") = "<<systemPtr_->interaction().chi(i, j)<<std::endl;
             pointWiseAddScale << <NUMBER_OF_BLOCKS, THREADS_PER_BLOCK >> > (tempDev[i].cDField(),
                                                                             systemPtr_->cFieldRGrid(j).cDField(),
                                                                             systemPtr_->interaction().chi(i, j),
                                                                             systemPtr_->mesh().size());
             //this is a good add but i dont necessarily know if its right
+            std::cout<<"systemPtr_->interaction().idemp("<<i<<" ," <<j<<") = "<<systemPtr_->interaction().idemp(i, j)<<std::endl;
             pointWiseAddScale << <NUMBER_OF_BLOCKS, THREADS_PER_BLOCK >> > (tempDev[i].cDField(),
                                                                             systemPtr_->wFieldRGrid(j).cDField(),
                                                                             -systemPtr_->interaction().idemp(i, j),
