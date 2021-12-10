@@ -55,10 +55,11 @@ public:
       printMethod(TEST_FUNC);
 
       System<3> system;
-      Sweep<3>* sweepPtr;
       SweepFactory<3> sf(system);
+      Sweep<3>* sweepPtr;
       
       sweepPtr = sf.factory("LinearSweep");
+      TEST_ASSERT(sweepPtr != 0);
    }
 
    void testParameterRead() 
@@ -130,7 +131,7 @@ public:
       // Manually check equality for each one
       sysval[0] = system.mixture().polymer(0).block(0).length();
       sysval[1] = system.interaction().chi(0,1);
-      sysval[2] = system.mixture().monomer(0).step();
+      sysval[2] = system.mixture().monomer(0).kuhn();
       sysval[3] = system.mixture().polymer(0).phi();
       for (int i = 0; i < 4; ++i) {
          TEST_ASSERT(sysval[i] == paramval[i]);
@@ -176,7 +177,7 @@ public:
       // Manually check equality for each one
       sysval[0] = system.mixture().polymer(0).block(0).length();
       sysval[1] = system.interaction().chi(0,1);
-      sysval[2] = system.mixture().monomer(0).step();
+      sysval[2] = system.mixture().monomer(0).kuhn();
       sysval[3] = system.mixture().polymer(0).phi();
       for (int i = 0; i < 4; ++i) {
          TEST_ASSERT(sysval[i]==paramval[i]);
@@ -236,6 +237,11 @@ public:
             maxDiff = comparison.maxDiff();
          }
       }
+      //setVerbose(1);
+      if (verbose() > 0) {
+         std::cout << std::endl;
+         std::cout << "maxDiff = " << Dbl(maxDiff, 14, 6) << std::endl;
+      }
       TEST_ASSERT(maxDiff < 5.0e-7);
    }
 
@@ -282,6 +288,11 @@ public:
          if (comparison.maxDiff() > maxDiff) {
             maxDiff = comparison.maxDiff();
          }
+      }
+      //setVerbose(1);
+      if (verbose() > 0) {
+         std::cout << std::endl;
+         std::cout << "maxDiff = " << Dbl(maxDiff, 14, 6) << std::endl;
       }
       TEST_ASSERT(maxDiff < 5.0e-7);
    }
@@ -330,7 +341,12 @@ public:
             maxDiff = comparison.maxDiff();
          }
       }
-      TEST_ASSERT(maxDiff < 5.0e-7);
+      //setVerbose(1);
+      if (verbose() > 0) {
+         std::cout << std::endl;
+         std::cout << "maxDiff = " << Dbl(maxDiff, 14, 6) << std::endl;
+       }
+       TEST_ASSERT(maxDiff < 5.0e-7);
    }
 
    void testLinearSweepPhi()   
@@ -377,6 +393,11 @@ public:
             maxDiff = comparison.maxDiff();
          }
       }
+      //setVerbose(1);
+      if (verbose() > 0) {
+         std::cout << std::endl;
+         std::cout << "maxDiff = " << Dbl(maxDiff, 14, 6) << std::endl;
+      }
       TEST_ASSERT(maxDiff < 5.0e-7);
    }
 
@@ -418,13 +439,16 @@ public:
       // Compare output
       BFieldComparison comparison;
       double maxDiff = 0.0;
-      int iFail = 10;
       for (int i = 0; i < 5; ++i) {
          comparison.compare(fieldsRef[i].fields(), fieldsOut[i].fields());
          if (comparison.maxDiff() > maxDiff) {
             maxDiff = comparison.maxDiff();
-            iFail = i;
          }
+      }
+      //setVerbose(1);
+      if (verbose() > 0) {
+         std::cout << std::endl;
+         std::cout << "maxDiff = " << Dbl(maxDiff, 14, 6) << std::endl;
       }
       TEST_ASSERT(maxDiff < 5.0e-7);
    }
