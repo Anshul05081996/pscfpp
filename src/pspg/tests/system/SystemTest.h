@@ -699,7 +699,7 @@ public:
       system.fileMaster().setOutputPrefix(filePrefix());
 
       openLogFile("out/testIterate3D_bcc_flex.log");
-      system.setGpuResources(128, 256);
+      system.setGpuResources(64,512);
 
       std::ifstream in;
       openInputFile("in/diblock/bcc/param.flex", in);
